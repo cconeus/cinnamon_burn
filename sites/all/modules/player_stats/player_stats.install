@@ -1,0 +1,80 @@
+<?php
+
+function player_stats_schema() {
+    $schema = array();
+
+    $schema['player_info'] = array(
+        'description' => t('Table for player info'),
+        'fields' => array(
+            'player_id' => array(
+                'description' => 'The primary identifier for player info.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'name' => array(
+                'description' => 'The player name column for player info table.',
+                'type' => 'varchar',
+                'length' => 32,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+            'rank' => array(
+                'description' => 'Player rank column',
+                'type' => 'varchar',
+                'length' => 255,
+                'not null' => TRUE,
+                'default' => '',
+            ),
+        ),
+        'primary key' => array('player_id'),
+    );
+
+    $schema['players_stars'] = array(
+        'description' => t('Join table for player info and stars'),
+        'fields' => array(
+            'join_id' => array(
+                'description' => 'The primary identifier for the join table',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'player_id' => array(
+                'description' => 'The primary identifier for player_id',
+                'type' => 'int',
+                'length' => 10,
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'star_id' => array(
+                'description' => 'The primary identifier for war_stars table',
+                'type' => 'int',
+                'length' => 10,
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+        ),
+        'primary key' => array('join_id'),
+    );
+
+    $schema['war_stars'] = array(
+        'description' => t('Table for storing war star options and values.'),
+        'fields' => array(
+            'star_id' => array(
+                'description' => 'The primary identifier for war star IDs.',
+                'type' => 'serial',
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+            'stars_value' => array(
+                'description' => 'War star values 1-6.',
+                'type' => 'int',
+                'length' => 10,
+                'unsigned' => TRUE,
+                'not null' => TRUE,
+            ),
+        ),
+        'primary key' => array('star_id'),
+    );
+    return $schema;
+}

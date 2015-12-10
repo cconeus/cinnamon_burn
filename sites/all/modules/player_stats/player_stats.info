@@ -1,0 +1,4 @@
+name = "Player Stats"
+description = "A module for adding, updating and removing players and player stats from the database, as well as creating a table for player information."
+core = "7.x"
+version "7.x-1.0"

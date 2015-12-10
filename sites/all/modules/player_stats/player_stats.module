@@ -1,0 +1,66 @@
+<?php
+
+    function player_stats_permission() {
+        return array(
+            'submit player_info' => array(
+                'title' => t('Submit Form'),
+                'description' => t('submit the player_stats form'),
+            ),
+        );
+    }
+
+    function player_stats_menu() {
+        $items = array();
+        $items['player-info-form'] = array(
+            'title' => 'Add New Player',
+            'type' => MENU_NORMAL_ITEM,
+            'access arguments' => array('submit player_info'),
+            'page callback' => 'drupal_get_form',
+            'page arguments' => array('player_info_form'),
+        );
+
+        return $items;
+    }
+
+    function player_info_form($form, &$form_state) {
+
+        $form['name'] = array(
+            '#type' => 'textfield',
+            '#title' => t('Player Name'),
+            '#size' => 32,
+            '#maxlength' => 32,
+            '#required' => TRUE,
+            '#description' => t('Please enter a valid name'),
+        );
+
+        $form['rank'] = array(
+            '#type' => 'select',
+            '#title' => t('Select Rank'),
+            '#options' => array(
+                'Member' => t('Member'),
+                'Elder' => t('Elder'),
+                'Co-Leader' => t('Co-Leader'),
+                'Leader' => t('Leader'),
+            ),
+            '#required' => TRUE,
+            '#default_value' => t('Rank...'),
+        );
+
+        $form['submit'] = array(
+            '#type' => 'submit',
+            '#value' => t('Submit'),
+        );
+
+        return $form;
+    }
+
+    function player_info_form_submit($form, &$form_state) {
+        $player_id = db_insert('player_info')
+        ->fields(array(
+            'name' => $form_state['values']['name'],
+            'rank' => $form_state['values']['rank'],
+        ))
+        ->execute();
+
+        drupal_set_message(t('Player has been successfully added.'));
+    }
